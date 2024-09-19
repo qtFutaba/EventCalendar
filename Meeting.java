@@ -1,8 +1,8 @@
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Meeting extends Event implements Completable
 {
-    Date endDateTime;
+    LocalDateTime endDateTime;
     String location;
 
     @Override
@@ -18,7 +18,7 @@ public class Meeting extends Event implements Completable
         return super.isComplete();
     }
 
-    public Date getEndDateTime()
+    public LocalDateTime getDateTime()
     {
         return endDateTime;
     }
@@ -33,7 +33,7 @@ public class Meeting extends Event implements Completable
         return location;
     }
 
-    void setEndDateTime(Date endDateTime)
+    void setEndDateTime(LocalDateTime endDateTime)
     {
         this.endDateTime = endDateTime;
     }

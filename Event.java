@@ -1,9 +1,9 @@
-import java.util.Date;
+import java.time.LocalDateTime;
 
 abstract class Event implements Completable
 {
     String name;
-    Date dateTime;
+    LocalDateTime dateTime;
 
     public Event()
     {
@@ -15,12 +15,12 @@ abstract class Event implements Completable
         return name;
     }
 
-    Date getDate()
+    LocalDateTime getLocalDateTime()
     {
         return dateTime;
     }
 
-    void setDateTime(Date dateTime)
+    void setLocalDateTimeTime(LocalDateTime dateTime)
     {
         this.dateTime = dateTime;
     }
