@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-abstract class Event implements Completable
+abstract class Event implements Comparable<Event>
 {
     String name;
     LocalDateTime dateTime;
@@ -15,12 +15,12 @@ abstract class Event implements Completable
         return name;
     }
 
-    LocalDateTime getLocalDateTime()
+    LocalDateTime getDateTime()
     {
         return dateTime;
     }
 
-    void setLocalDateTimeTime(LocalDateTime dateTime)
+    void setDateTime(LocalDateTime dateTime)
     {
         this.dateTime = dateTime;
     }
@@ -30,10 +30,9 @@ abstract class Event implements Completable
         this.name = name;
     }
 
-    int compareTo(Event event)
+
+    public int compareTo(Event event)
     {
-        return 1;
+        return this.dateTime.compareTo(event.getDateTime());
     }
-
-
 }
