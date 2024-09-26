@@ -34,12 +34,7 @@ public class Meeting extends Event implements Completable
 
     public Duration getDuration()
     {
-        int startTime = dateTime.getHour();
-        int endTime = endDateTime.getHour();
-
-        Duration duration = Duration.of(endTime - startTime);
-
-        return duration;
+        return Duration.between(this.dateTime, this.endDateTime);
     }
 
     public String getLocation()

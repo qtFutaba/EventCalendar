@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDateTime;
 
 public class EventPlanner extends JFrame
 {
@@ -13,6 +14,7 @@ public class EventPlanner extends JFrame
         JLabel statusLabel = new JLabel("Status: ", JLabel.CENTER);
 
         JLabel topLabel = new JLabel("Event Planner",10);
+        topLabel.setFont(new Font("Rockwell",Font.BOLD,18));
 
 
         JPanel top = new JPanel();
@@ -27,13 +29,11 @@ public class EventPlanner extends JFrame
         this.add(top, BorderLayout.NORTH);
         this.add(main, BorderLayout.CENTER);
 
-        this.setSize(600,500);
+        top.setBackground(new Color(208, 255, 249));
+        main.setBackground(new Color(208, 255, 249));
+
+        this.setSize(400,500);
         this.setVisible(true);
-    }
-
-    static void addDefaultEvents(EventPanel events)
-    {
-
     }
 
     public static void main(String[] args)
