@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-
 public class AddEventModal extends JDialog implements ItemListener, ActionListener
 {
     JPanel mainPanel = new JPanel();
@@ -21,47 +20,57 @@ public class AddEventModal extends JDialog implements ItemListener, ActionListen
     JSpinner endDate = new JSpinner(new SpinnerDateModel());
     JTextField location = new JTextField(20);
 
-    JButton submitButton = new JButton("Submit");
+    JButton submit = new JButton("Submit");
 
     Event event;
+    private int state = 1;
 
     public AddEventModal()
     {
-
+        //TRIED AND TRUE LINE FORMAT
         JPanel line1 = new JPanel();
         JPanel line2 = new JPanel();
         JPanel line3 = new JPanel();
         JPanel line4 = new JPanel();
         JPanel line5 = new JPanel();
 
+        //LINE 1 (Event Type)
         line1.add(eventTypeLabel);
         line1.add(eventTypeComboBox);
 
+        //LINE 2 (Event Name)
         JLabel eventNameLabel = new JLabel("Event Name");
         line2.add(eventNameLabel);
         line2.add(eventName);
 
+        //LINE 3 (Event Start Date)
         JLabel startDateLabel = new JLabel("Start Date");
         line3.add(startDateLabel);
         line3.add(startDate);
 
+        //LINE 4 (Event End Date)
         JLabel endDateLabel = new JLabel("End Date");
         line4.add(endDateLabel);
         line4.add(endDate);
 
+        //LINE 5 (Event Location)
         JLabel locationLabel = new JLabel("Location");
         line5.add(locationLabel);
         line5.add(location);
 
+        //ADD TO PANEL
         mainPanel.add(line1);
         mainPanel.add(line2);
         mainPanel.add(line3);
         mainPanel.add(line4);
         mainPanel.add(line5);
-        mainPanel.add(submitButton);
+        mainPanel.add(submit);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        //ADD TO DIALOG
         this.add(mainPanel);
 
+        //LISTENERS
         eventTypeComboBox.addItemListener(new ItemListener()
         {
             @Override
@@ -74,6 +83,8 @@ public class AddEventModal extends JDialog implements ItemListener, ActionListen
 
                     endDate.setVisible(false);
                     location.setVisible(false);
+                    endDateLabel.setVisible(false);
+                    locationLabel.setVisible(false);
                 }
                 else if (eventTypeComboBox.getSelectedItem().equals("Meeting"))
                 {
@@ -82,50 +93,41 @@ public class AddEventModal extends JDialog implements ItemListener, ActionListen
 
                     endDate.setVisible(true);
                     location.setVisible(true);
+                    endDateLabel.setVisible(true);
+                    locationLabel.setVisible(true);
                 }
             }
         });
-        submitButton.addActionListener(new ActionListener() {
+
+        submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                if (eventTypeComboBox.getSelectedItem().equals("Deadline"))
-                {
-                    Date dateconvert = (Date) startDate.getValue();
-                    LocalDateTime date = dateconvert.toInstant()
-                            .atZone(ZoneId.systemDefault())
-                            .toLocalDateTime();
 
-                    event = new Deadline(eventName.getText(), date);
-                }
-                else if (eventTypeComboBox.getSelectedItem().equals("Meeting"))
-                {
-                    Date startConvert = (Date) startDate.getValue();
-                    LocalDateTime start = startConvert.toInstant()
-                            .atZone(ZoneId.systemDefault())
-                            .toLocalDateTime();
-
-                    Date endConvert = (Date) endDate.getValue();
-                    LocalDateTime end = endConvert.toInstant()
-                            .atZone(ZoneId.systemDefault())
-                            .toLocalDateTime();
-
-                    event = new Meeting(eventName.getText(), (LocalDateTime) start, end,location.getText());
-                }
-
-                setVisible(false);
+                state = 0;
             }
         });
     };
 
-    @Override
-    public void itemStateChanged(ItemEvent e)
+    public Event showEventAdder()
+    {
+        state = 1;
+        this.setVisible(true);
+
+        setModal(true);
+
+        return event;
+    }
+
+
+
+    public void actionPerformed(ActionEvent e)
     {
 
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    public void itemStateChanged(ItemEvent e)
+    {
 
     }
 }

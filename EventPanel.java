@@ -61,6 +61,7 @@ public class EventPanel extends JPanel
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setPreferredSize(new Dimension(175,300));
 
+        //DISPLAYING A MEETING
         if (event instanceof Meeting)
         {
             Meeting meeting = (Meeting) event;
@@ -121,6 +122,7 @@ public class EventPanel extends JPanel
             line7.add(completeStatusLabel);
             line7.add(completeStatus);
 
+            //ADD LINES TO PANEL
             this.add(line1);
             this.add(line2);
             this.add(line3);
@@ -139,6 +141,7 @@ public class EventPanel extends JPanel
             completeStatus.setBackground(Color.WHITE);
         }
 
+        //DISPLAYING A DEADLINE
         else if(event instanceof Deadline)
         {
             Deadline deadline = (Deadline) event;
@@ -170,11 +173,12 @@ public class EventPanel extends JPanel
             JLabel completeStatusLabel = new JLabel("Completed?");
             JCheckBox completeStatus = new JCheckBox();
             completeStatus.setSelected(deadline.complete);
-            completeStatus.setEnabled(false);
+            completeStatus.setEnabled(true);
 
             line4.add(completeStatusLabel);
             line4.add(completeStatus);
 
+            //ADD LINES TO PANEL
             this.add(line1);
             this.add(line2);
             this.add(line3);
