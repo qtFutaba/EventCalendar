@@ -118,7 +118,10 @@ public class EventPanel extends JPanel
             JLabel completeStatusLabel = new JLabel("Completed?");
             JCheckBox completeStatus = new JCheckBox();
             completeStatus.setSelected(meeting.complete);
-            completeStatus.setEnabled(false);
+            completeStatus.setEnabled(true);
+
+            //CHECKBOX TO COMPLETE EVENT: Lambda function moment.
+            completeStatus.addActionListener(e -> meeting.complete = completeStatus.isSelected());
 
             line7.add(completeStatusLabel);
             line7.add(completeStatus);
@@ -176,7 +179,7 @@ public class EventPanel extends JPanel
             completeStatus.setSelected(deadline.complete);
             completeStatus.setEnabled(true);
 
-                    //Lambda function moment.
+            //CHECKBOX TO COMPLETE EVENT: Lambda function moment.
             completeStatus.addActionListener(e -> deadline.complete = completeStatus.isSelected());
 
             line4.add(completeStatusLabel);
