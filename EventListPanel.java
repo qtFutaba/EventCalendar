@@ -8,8 +8,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 public class EventListPanel extends JPanel implements ListSelectionListener, ActionListener, ItemListener
 {
@@ -37,7 +36,7 @@ public class EventListPanel extends JPanel implements ListSelectionListener, Act
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
 
         //FILTERS FOR EVENTS
-        String filterType[] = {"Default Sorting", "Deadlines Only", "Meetings Only", "Incomplete", "Alphabetical", "Reversed Alphabetical"};
+        String filterType[] = {"Deadlines Only", "Meetings Only", "Incomplete", "Alphabetical", "Reversed Alphabetical", "Date", "Reversed Date"};
         sortDropDown = new JComboBox(filterType);
         sortDropDown.setPreferredSize(new Dimension(200,20));
 
@@ -80,6 +79,7 @@ public class EventListPanel extends JPanel implements ListSelectionListener, Act
         eventListDisplay = new JList(eventList);
         JScrollPane scrollPane = new JScrollPane(eventListDisplay); //CREATE THE DISPLAY WITH A SCROLL IN CASE SOMEONE WANTED TO ADD A BUNCH OF EVENTS
         displayPanel.add(scrollPane);
+        scrollPane.setPreferredSize(new Dimension(120,300));
 
         eventListDisplay.addListSelectionListener(this);
 
@@ -110,7 +110,7 @@ public class EventListPanel extends JPanel implements ListSelectionListener, Act
 
         for (Event event : events)
         {
-            eventList.addElement(event.getName());
+            eventList.addElement(event);
         }
     }
 
@@ -165,7 +165,7 @@ public class EventListPanel extends JPanel implements ListSelectionListener, Act
 
             //ADD THE NEWLY CREATED EVENT TO OUR ARRAY AND LIST
             events.add(addEvent.event);
-            eventList.addElement(addEvent.event.getName());
+            eventList.addElement(addEvent.event);
         }
 
     }
@@ -176,8 +176,93 @@ public class EventListPanel extends JPanel implements ListSelectionListener, Act
     {
         if (e.getSource().equals(filterDisplay))
         {
+            eventListDisplay.clearSelection();
+            eventList.clear();
 
-        }
+            if (filterDisplay.isSelected())
+            {
+                String selection = (String) sortDropDown.getSelectedItem();
+                if (selection == "Deadlines Only")
+                {
+                    for (Event event : events)
+                    {
+                        if (event instanceof Deadline)
+                        {
+                            eventList.addElement(event);
+                        }
+                    }
+                }
+                else if (selection == "Meetings Only")
+                {
+                    for (Event event : events)
+                    {
+                        if (event instanceof Meeting)
+                        {
+                            eventList.addElement(event);
+                        }
+                    }
+                }
+                else if (selection == "Incomplete")
+                {
+                    for (Event event : events)
+                    {
+                        if (event instanceof Completable)
+                        {
+                            Completable completableEvent = (Completable) event;
+                            if (!completableEvent.isComplete())
+                            {
+                                eventList.addElement(event);
+                            }
+                        }
+                    }
+                }
+                else if (selection == "Alphabetical")
+                {
+                    Collections.sort(events, Comparator.comparing(Event::getName));
+                    for (Event event : events)
+                    {
+                        eventList.addElement(event);
+                    }
+                }
+                else if (selection == "Reversed Alphabetical")
+                {
+                    Collections.sort(events, Comparator.comparing(Event::getName));
+                    Collections.reverse(events);
+                    for (Event event : events)
+                    {
+                        eventList.addElement(event);
+                    }
+                }
+                else if (selection == "Date")
+                {
+                    Collections.sort(events);
+                    for (Event event : events)
+                    {
+                        eventList.addElement(event);
+                    }
+                }
+                else if (selection == "Reversed Date")
+                {
+                    Collections.sort(events);
+                    Collections.reverse(events);
+
+                    for (Event event : events)
+                    {
+                        eventList.addElement(event);
+                    }
+                }
+
+            }
+            else
+            {
+                for (Event event : events)
+                {
+                    eventList.addElement(event);
+                }
+            }
+
+
+        };
     }
 
     @Override
@@ -188,8 +273,7 @@ public class EventListPanel extends JPanel implements ListSelectionListener, Act
         displayPanel.remove(eventPanel);
 
         //GET THE NEW EVENT INFO
-        int index = eventListDisplay.getSelectedIndex();
-        eventPanel = new EventPanel(events.get(index));
+        eventPanel = new EventPanel((Event) eventListDisplay.getSelectedValue());
 
         //PUT INTO THE PANEL
         displayPanel.add(eventPanel);

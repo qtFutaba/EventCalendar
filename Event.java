@@ -15,7 +15,7 @@ abstract class Event implements Comparable<Event>
         return name;
     }
 
-    LocalDateTime getDateTime()
+    public LocalDateTime getDateTime()
     {
         return dateTime;
     }
@@ -34,5 +34,11 @@ abstract class Event implements Comparable<Event>
     public int compareTo(Event event)
     {
         return this.dateTime.compareTo(event.getDateTime());
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
     }
 }

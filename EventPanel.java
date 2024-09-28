@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 
 public class EventPanel extends JPanel
@@ -174,6 +175,9 @@ public class EventPanel extends JPanel
             JCheckBox completeStatus = new JCheckBox();
             completeStatus.setSelected(deadline.complete);
             completeStatus.setEnabled(true);
+
+                    //Lambda function moment.
+            completeStatus.addActionListener(e -> deadline.complete = completeStatus.isSelected());
 
             line4.add(completeStatusLabel);
             line4.add(completeStatus);
